@@ -1,6 +1,9 @@
 package Model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room implements Serializable {
     private String roomID;
@@ -9,8 +12,7 @@ public class Room implements Serializable {
     private double dailyRate;
     private int capacity;
     private String furnitureDescription;
-
-    private boolean isOccupied = false;
+    private List<Guest> guestStays = new ArrayList<>();
 
     public Room(String roomID, String roomName, String roomType, double dailyRate, int capacity, String furnitureDescription) {
         this.roomID = roomID;
@@ -69,11 +71,11 @@ public class Room implements Serializable {
         this.furnitureDescription = furnitureDescription;
     }
 
-    public boolean isOccupied() {
-        return isOccupied;
+    public List<Guest> getGuestStays() {
+        return guestStays;
     }
 
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
+    public void setGuestStays(List<Guest> guestStays) {
+        this.guestStays = guestStays;
     }
 }
