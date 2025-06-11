@@ -12,6 +12,8 @@ import java.util.List;
 public class RoomServices implements IRoomServices {
     List<Room> listRooms;
     public final String roomFilePath="src/Resources/Active_Room_List.txt";
+    public final String roomFilePathDAT="src/Resources/roomList.dat";
+
 public RoomServices() {
     listRooms= FileUltils.loadRoomsFromFile(roomFilePath);
 }
@@ -19,6 +21,7 @@ public RoomServices() {
     @Override
     public void loadRoomsFromFile() {
         FileUltils.importRoomData(roomFilePath);
+        saveRoomToFile(listRooms);
     }
 
     @Override
@@ -62,4 +65,11 @@ public RoomServices() {
             System.out.println("No rooms are available in that period.");
         }
     }
+
+    @Override
+    public void saveRoomToFile(List<Room> list) {
+        FileUltils.saveRoomList(list,roomFilePathDAT);
+    }
+
+
 }

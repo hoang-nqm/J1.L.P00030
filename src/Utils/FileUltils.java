@@ -1,11 +1,9 @@
 package Utils;
 
+import Model.Guest;
 import Model.Room;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -131,5 +129,40 @@ public class FileUltils {
         }
 
         return roomList;
+    }
+
+    public static void saveGuestList(List<Guest> guestList, String filePath) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            oos.writeObject(guestList);
+            System.out.println("Guest list saved successfully to " + filePath);
+        } catch (IOException e) {
+            System.out.println("Error saving guest list: " + e.getMessage());
+        }
+    }
+    public static List<Guest> loadGuestListFromFile(String filePath) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            List<Guest> guestList = (List<Guest>) ois.readObject();
+            System.out.println("Guest list loaded successfully from " + filePath);
+            return guestList != null ? guestList : new ArrayList<>();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Could not load guest list. Starting with empty list.");
+            return new ArrayList<>();
+        }
+    }
+    public static void saveRoomList(List<Room> roomList, String filePath) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            oos.writeObject(roomList);
+        } catch (IOException e) {
+            System.out.println("Error saving room list: " + e.getMessage());
+        }
+    }
+    public static List<Room> loadRoomList(String filePath) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            List<Room> roomList = (List<Room>) ois.readObject();
+            return roomList != null ? roomList : new ArrayList<>();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Could not load guest list. Starting with empty list.");
+            return new ArrayList<>();
+        }
     }
 }

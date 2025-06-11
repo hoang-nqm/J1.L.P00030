@@ -34,6 +34,39 @@ public class Validations {
         }
     }
 
+    public static String inputNationalIDReserva() {
+        while (true) {
+            System.out.print("Enter National ID to cancel reservation: ");
+            String nationalID = sc.nextLine().trim();
+
+            if (!nationalID.matches("\\d{12}")) {
+                System.out.println(" Invalid format. Must be exactly 12 digits.");
+                continue;
+            }
+            return nationalID;
+        }
+    }
+    public static Guest getGuestByNationalID(List<Guest> listGuests) {
+        while (true) {
+            System.out.print("Enter National ID: ");
+            String nationalID = sc.nextLine().trim();
+
+            if (!nationalID.matches("\\d{12}")) {
+                System.out.println(" Invalid format. Must be exactly 12 digits.");
+                continue;
+            }
+            Guest existingGuest = listGuests.stream()
+                    .filter(g -> g.getNationalID().equals(nationalID))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingGuest == null) {
+                System.out.println("Guest with ID " + nationalID + " not found in system.");
+            }
+            return existingGuest;
+        }
+    }
+
     public static String inputFullName() {
         while (true) {
             System.out.print("Enter full name: ");
@@ -220,5 +253,26 @@ public class Validations {
         }
 
         return selectedRoom;
+    }
+
+    public static List<Guest> getBookingByID(List<Guest> listGuests, String nationalID) {
+        List<Guest> targetGuest = listGuests.stream()
+                .filter(g -> g.getNationalID().equals(nationalID)
+                        && g.getCheckInDate().isAfter(LocalDate.now()))
+                .toList();
+
+        if (targetGuest == null) {
+            System.out.println("Booking details for ID '" + nationalID + "' could not be found.");
+            return null;
+        }
+
+        return targetGuest;
+    }
+
+    public static Room getRoomByID(List<Room> roomList, String roomID) {
+        return roomList.stream()
+                .filter(r -> r.getRoomID().equalsIgnoreCase(roomID))
+                .findFirst()
+                .orElse(null);
     }
 }

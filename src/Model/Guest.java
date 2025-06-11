@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Guest extends Person{
+public class Guest extends Person implements Serializable {
 
     private String roomID;
     private int rentalDays;

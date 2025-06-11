@@ -1,19 +1,29 @@
 package UI;
 
 
+import Model.Room;
 import Services.Implements.GuestServices;
 import Services.Implements.RoomServices;
 import Services.Interfaces.IGuestServices;
 import Services.Interfaces.IRoomServices;
+import Utils.FileUltils;
 import Utils.Input;
+
+import java.util.List;
 
 public class MainMenu {
 
     IRoomServices roomServices;
     IGuestServices guestServices;
+
+
+
+
+
     public MainMenu() {
         roomServices = new RoomServices();
         guestServices = new GuestServices();
+
     }
 
     public void mainMenu() {
@@ -31,6 +41,8 @@ public class MainMenu {
             System.out.println("8. Monthly Revenue Report");
             System.out.println("9. Revenue Report by Room Type");
             System.out.println("10. Save Guest Information");
+            System.out.println("11. Display Guest Information");
+            System.out.println("12. Booking");
             System.out.println("Orther. Exit");
 
             Input input = new Input();
@@ -40,6 +52,7 @@ public class MainMenu {
             switch (choice) {
                 case 1:
                     roomServices.loadRoomsFromFile();
+
                     break;
                 case 2:
                     roomServices.displayRoomsAvailable();
@@ -54,7 +67,7 @@ public class MainMenu {
                     System.out.println("Enter Customer ID");
                     break;
                 case 6:
-                    System.out.println("Update order information");
+                    guestServices.cancelReservationByID();
                     break;
                 case 7:
                     System.out.println("Enter Customer ID");
@@ -66,12 +79,18 @@ public class MainMenu {
                     System.out.println("Enter Customer ID");
                     break;
                 case 10:
-                    System.out.println("Enter Customer ID");
+                    guestServices.saveGuestToFile();
+                    break;
+                case 11:
+                    guestServices.displayListGuests();
+                    break;
+                case 12:
+                    guestServices.bookRoomForExistingGuest();
                     break;
                 default:
                     System.out.println("Goodbye!!!");
             }
-        } while (choice >= 1 && choice <= 8);
+        } while (choice >= 1 && choice <= 12);
 
     }
 }
