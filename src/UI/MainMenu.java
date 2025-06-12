@@ -73,10 +73,10 @@ public class MainMenu {
                     System.out.println("Enter Customer ID");
                     break;
                 case 8:
-                    System.out.println("Enter Customer ID");
+                    guestServices.monthlyRevenueReport();
                     break;
                 case 9:
-                    System.out.println("Enter Customer ID");
+                guestServices.revenueByRoomType();
                     break;
                 case 10:
                     guestServices.saveGuestToFile();

@@ -70,7 +70,12 @@ public class GuestServices implements IGuestServices {
 
         String nationalID = Validations.inputNationalIDReserva();
         List<Guest> bookings = Validations.getBookingByID(listGuests,nationalID);
-        System.out.println("\n📋 Upcoming bookings:");
+
+        if (bookings == null || bookings.isEmpty()) {
+            System.out.println(" Khách hàng chưa đặt phòng nào hoặc không có booking hợp lệ.");
+            return;
+        }
+        System.out.println("\n Upcoming bookings:");
         for (int i = 0; i < bookings.size(); i++) {
             Guest g = bookings.get(i);
             System.out.printf("[%d] Room: %s | Check-in: %s | Days: %d\n",
@@ -151,14 +156,20 @@ public class GuestServices implements IGuestServices {
             System.out.printf("Gender      : %s\n", guest.getGender());
             System.out.printf("Co-tenant   : %s\n", guest.getCoTenAntName() != null ? guest.getCoTenAntName() : "None");
             System.out.println("------------------------------------------------------------");
-            System.out.printf("Room ID     : %s\n", guest.getRoomID());
-            System.out.printf("Check-in    : %s\n", guest.getCheckInDate());
-            System.out.printf("Check-out   : %s\n", guest.getCheckOutDate());
-            System.out.printf("Rental days : %d days\n", guest.getRentalDays());
-            System.out.println("------------------------------------------------------------");
-            System.out.println();
-        }
+            String status = (guest.getCheckInDate() == null || guest.getCheckOutDate() == null)
+                    ? "CANCELLED" : "ACTIVE";
+            System.out.printf("Status      : %s\n", status);
 
+            if (!status.equals("CANCELLED")) {
+                System.out.printf("Room ID     : %s\n", guest.getRoomID());
+                System.out.printf("Check-in    : %s\n", guest.getCheckInDate());
+                System.out.printf("Check-out   : %s\n", guest.getCheckOutDate());
+                System.out.printf("Rental days : %d days\n", guest.getRentalDays());
+            } else {
+                System.out.println("Room ID     : (booking canceled)");
+            }
+
+        }
         System.out.println("============================================================");
     }
 
@@ -201,6 +212,16 @@ public class GuestServices implements IGuestServices {
         System.out.println("✅ New booking created for existing guest.");
         System.out.println("📅 Room: " + selectedRoom.getRoomID() + " | Check-in: " + newBooking.getCheckInDate());
         roomServices.saveRoomToFile(listRooms);
+    }
+
+    @Override
+    public void monthlyRevenueReport() {
+        roomServices.generateMonthlyRevenueReport(listGuests,listRooms);
+    }
+
+    @Override
+    public void revenueByRoomType() {
+        roomServices.generateRevenueByRoomType(listGuests,listRooms);
     }
 
 

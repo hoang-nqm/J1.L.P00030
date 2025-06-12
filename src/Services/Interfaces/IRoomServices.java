@@ -1,5 +1,6 @@
 package Services.Interfaces;
 
+import Model.Guest;
 import Model.Room;
 
 import java.time.LocalDate;
@@ -11,4 +12,6 @@ public interface IRoomServices {
     void displayRoomsAvailable();
     void displayAvailableRoomsOnDate(List<Room> roomList, LocalDate targetDate, int rentalDays);
     void saveRoomToFile(List<Room> list);
+    void generateMonthlyRevenueReport(List<Guest> listGuests, List<Room> listRooms);
+    void generateRevenueByRoomType(List<Guest> listGuests, List<Room> listRooms);
 }

@@ -254,19 +254,12 @@ public class Validations {
 
         return selectedRoom;
     }
-
     public static List<Guest> getBookingByID(List<Guest> listGuests, String nationalID) {
-        List<Guest> targetGuest = listGuests.stream()
+        return listGuests.stream()
                 .filter(g -> g.getNationalID().equals(nationalID)
+                        && g.getCheckInDate() != null
                         && g.getCheckInDate().isAfter(LocalDate.now()))
                 .toList();
-
-        if (targetGuest == null) {
-            System.out.println("Booking details for ID '" + nationalID + "' could not be found.");
-            return null;
-        }
-
-        return targetGuest;
     }
 
     public static Room getRoomByID(List<Room> roomList, String roomID) {

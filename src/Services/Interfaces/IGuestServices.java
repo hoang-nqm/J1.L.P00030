@@ -11,4 +11,6 @@ public interface IGuestServices {
     void displayListGuests();
     void saveGuestToFile();
     void bookRoomForExistingGuest();
+    void monthlyRevenueReport();
+    void revenueByRoomType();
 }
